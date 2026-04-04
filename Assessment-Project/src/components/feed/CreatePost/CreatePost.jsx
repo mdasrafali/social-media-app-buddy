@@ -9,6 +9,7 @@ export default function CreatePost({ onPostCreated }) {
   const [content, setContent] = useState('')
   const [imageFile, setImageFile] = useState(null)      // raw File object
   const [imagePreview, setImagePreview] = useState(null) // local blob URL for preview
+  const [visibility, setVisibility] = useState('public')
   const [uploading, setUploading] = useState(false)
   const [posting, setPosting] = useState(false)
 
@@ -38,7 +39,7 @@ export default function CreatePost({ onPostCreated }) {
         setUploading(false)
       }
 
-      const payload = { visibility: 'public' }
+      const payload = { visibility }
       if (content.trim()) payload.content = content.trim()
       if (imageUrl) payload.imageUrl = imageUrl
 
@@ -83,6 +84,26 @@ export default function CreatePost({ onPostCreated }) {
             </button>
           </div>
         )}
+
+        {/* Visibility toggle */}
+        <div style={{ display: 'flex', gap: '8px', margin: '8px 0' }}>
+          <button
+            type="button"
+            onClick={() => setVisibility('public')}
+            className={`_feed_inner_text_area_bottom_photo_link${visibility === 'public' ? ' _feed_reaction_active' : ''}`}
+            style={{ fontSize: '13px', padding: '4px 12px', borderRadius: '4px', opacity: visibility === 'public' ? 1 : 0.5 }}
+          >
+            🌐 Public
+          </button>
+          <button
+            type="button"
+            onClick={() => setVisibility('private')}
+            className={`_feed_inner_text_area_bottom_photo_link${visibility === 'private' ? ' _feed_reaction_active' : ''}`}
+            style={{ fontSize: '13px', padding: '4px 12px', borderRadius: '4px', opacity: visibility === 'private' ? 1 : 0.5 }}
+          >
+            🔒 Only me
+          </button>
+        </div>
 
         <CreatePostActionsDesktop
           onPost={handlePost}

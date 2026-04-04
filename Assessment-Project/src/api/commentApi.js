@@ -12,6 +12,12 @@ export const deleteCommentApi = (commentId) => api.delete(`/comments/${commentId
 
 export const toggleCommentLikeApi = (commentId) => api.post(`/comments/${commentId}/likes`);
 
+export const getCommentLikesApi = (commentId, cursor = null, limit = 20) => {
+  const params = { limit };
+  if (cursor) params.cursor = cursor;
+  return api.get(`/comments/${commentId}/likes`, { params });
+};
+
 export const getRepliesApi = (commentId, cursor = null) => {
   const params = { limit: 10 };
   if (cursor) params.cursor = cursor;

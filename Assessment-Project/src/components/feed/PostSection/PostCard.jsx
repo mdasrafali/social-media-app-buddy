@@ -9,7 +9,7 @@ import PostLikesModal from './PostLikesModal'
 
 export default function PostCard({ post, onPostDeleted }) {
   const [likesCount, setLikesCount] = useState(post.likesCount || 0)
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(post.isLikedByViewer || false)
   const [showLikesModal, setShowLikesModal] = useState(false)
 
   const handleLike = async () => {

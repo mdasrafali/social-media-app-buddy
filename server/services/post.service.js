@@ -99,9 +99,25 @@ const getFeed = async ({ cursor = null, limit = 10, viewerId }) => {
     },
   };
 
-  // Cache only the first page of the public feed
+  // Cache only the first page of the public feed (viewer-independent data)
   if (!cursor) {
     await cacheSet(FEED_CACHE_KEY, result, FEED_CACHE_TTL);
+  }
+
+  // Compute isLikedByViewer AFTER the cache — this is viewer-specific so must
+  // never be stored in the shared cache. One extra query on the _id index.
+  if (viewerId && posts.length > 0) {
+    const viewerOid = new mongoose.Types.ObjectId(viewerId);
+    const postIds = posts.map((p) => p._id);
+    // likes has select:false but we can still filter on it; only _id needed back
+    const likedDocs = await Post.find(
+      { _id: { $in: postIds }, likes: viewerOid }
+    ).select('_id').lean();
+    const likedSet = new Set(likedDocs.map((d) => d._id.toString()));
+    result.posts = posts.map((p) => ({
+      ...p,
+      isLikedByViewer: likedSet.has(p._id.toString()),
+    }));
   }
 
   return result;

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const User = require('../models/User');
@@ -90,7 +91,7 @@ const addComment = async (postId, userId, { content, parentCommentId }) => {
 
 // ─── Get comments for a post (cursor-based) ──────────────────────────────────
 
-const getComments = async (postId, { cursor = null, limit = 20 }) => {
+const getComments = async (postId, { cursor = null, limit = 20, viewerId = null }) => {
   const safeLimit = Math.min(Number(limit) || 20, 50);
 
   const filter = { postId, parentCommentId: null }; // top-level only
@@ -105,6 +106,17 @@ const getComments = async (postId, { cursor = null, limit = 20 }) => {
   const hasNextPage = comments.length > safeLimit;
   if (hasNextPage) comments.pop();
 
+  // Attach isLikedByViewer — one extra query on the _id index
+  if (viewerId && comments.length > 0) {
+    const viewerOid = new mongoose.Types.ObjectId(viewerId);
+    const commentIds = comments.map((c) => c._id);
+    const likedDocs = await Comment.find(
+      { _id: { $in: commentIds }, likes: viewerOid }
+    ).select('_id').lean();
+    const likedSet = new Set(likedDocs.map((d) => d._id.toString()));
+    comments.forEach((c) => { c.isLikedByViewer = likedSet.has(c._id.toString()); });
+  }
+
   return {
     comments,
     pagination: {
@@ -116,7 +128,7 @@ const getComments = async (postId, { cursor = null, limit = 20 }) => {
 
 // ─── Get replies for a comment (cursor-based) ─────────────────────────────────
 
-const getReplies = async (commentId, { cursor = null, limit = 10 }) => {
+const getReplies = async (commentId, { cursor = null, limit = 10, viewerId = null }) => {
   const safeLimit = Math.min(Number(limit) || 10, 50);
 
   const filter = { parentCommentId: commentId };
@@ -130,6 +142,17 @@ const getReplies = async (commentId, { cursor = null, limit = 10 }) => {
 
   const hasNextPage = replies.length > safeLimit;
   if (hasNextPage) replies.pop();
+
+  // Attach isLikedByViewer
+  if (viewerId && replies.length > 0) {
+    const viewerOid = new mongoose.Types.ObjectId(viewerId);
+    const replyIds = replies.map((r) => r._id);
+    const likedDocs = await Comment.find(
+      { _id: { $in: replyIds }, likes: viewerOid }
+    ).select('_id').lean();
+    const likedSet = new Set(likedDocs.map((d) => d._id.toString()));
+    replies.forEach((r) => { r.isLikedByViewer = likedSet.has(r._id.toString()); });
+  }
 
   return {
     replies,

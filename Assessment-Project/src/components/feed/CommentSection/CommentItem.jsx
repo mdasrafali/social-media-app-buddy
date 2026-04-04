@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import CommentActions from './CommentActions'
 import CommentInput from './CommentInput'
+import CommentLikesModal from './CommentLikesModal'
 import CommentReactions from './CommentReactions'
 import { getAvatar } from '../../../utils/avatar'
 
@@ -8,7 +9,8 @@ export default function CommentItem({ comment, postId, onDeleted }) {
   const [showReply, setShowReply] = useState(false)
   const [replies, setReplies] = useState([])
   const [likesCount, setLikesCount] = useState(comment.likesCount || 0)
-  const [liked, setLiked] = useState(false)
+  const [liked, setLiked] = useState(comment.isLikedByViewer || false)
+  const [showLikesModal, setShowLikesModal] = useState(false)
 
   const avatarSrc = getAvatar(comment.author.avatar)
   const authorName = `${comment.author.firstName} ${comment.author.lastName}`
@@ -40,7 +42,10 @@ export default function CommentItem({ comment, postId, onDeleted }) {
                 <span>{comment.content}</span>
               </p>
             </div>
-            <CommentReactions likesCount={likesCount} />
+            <CommentReactions
+              likesCount={likesCount}
+              onLikesClick={() => setShowLikesModal(true)}
+            />
             <CommentActions
               comment={comment}
               postId={postId}
@@ -74,6 +79,13 @@ export default function CommentItem({ comment, postId, onDeleted }) {
           ))}
         </div>
       </div>
+
+      {showLikesModal && (
+        <CommentLikesModal
+          commentId={comment._id}
+          onClose={() => setShowLikesModal(false)}
+        />
+      )}
     </>
   )
 }

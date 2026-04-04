@@ -1,6 +1,10 @@
-export default function CommentReactions({ likesCount }) {
+export default function CommentReactions({ likesCount, onLikesClick }) {
   return (
-    <div className="_total_reactions">
+    <div
+      className="_total_reactions"
+      onClick={likesCount > 0 ? onLikesClick : undefined}
+      style={likesCount > 0 ? { cursor: 'pointer' } : undefined}
+    >
       <div className="_total_react">
         <span className="_reaction_like">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-thumbs-up">

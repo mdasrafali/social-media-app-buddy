@@ -13,13 +13,13 @@ const addComment = asyncHandler(async (req, res) => {
 
 const getComments = asyncHandler(async (req, res) => {
   const { cursor, limit } = req.query;
-  const result = await commentService.getComments(req.params.postId, { cursor, limit });
+  const result = await commentService.getComments(req.params.postId, { cursor, limit, viewerId: req.user.id });
   return sendSuccess(res, result);
 });
 
 const getReplies = asyncHandler(async (req, res) => {
   const { cursor, limit } = req.query;
-  const result = await commentService.getReplies(req.params.commentId, { cursor, limit });
+  const result = await commentService.getReplies(req.params.commentId, { cursor, limit, viewerId: req.user.id });
   return sendSuccess(res, result);
 });
 
