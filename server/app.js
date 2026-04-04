@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth.routes');
 const postRoutes = require('./routes/post.routes');
 const commentRoutes = require('./routes/comment.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const storyRoutes = require('./routes/story.routes');
 const { errorHandler } = require('./middlewares/error.middleware');
 const { apiLimiter } = require('./middlewares/rateLimiter.middleware');
 const logger = require('./utils/logger');
@@ -62,6 +63,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/stories', storyRoutes);
 
 // ─── 404 handler ─────────────────────────────────────────────────────────────
 app.use((req, res) => {

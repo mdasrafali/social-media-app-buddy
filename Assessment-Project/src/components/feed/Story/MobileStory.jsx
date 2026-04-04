@@ -1,130 +1,74 @@
-export default function MobileStory() {
+import { useRef } from 'react'
+import { useAuth } from '../../../context/AuthContext'
+import { uploadImageApi } from '../../../api/uploadApi'
+import { createStoryApi } from '../../../api/storyApi'
+import StoryItemMobile from './StoryItemMobile'
+
+export default function MobileStory({ stories, onStoryCreated }) {
+  const { user } = useAuth()
+  const fileInputRef = useRef(null)
+
+  const ownStory = stories.find(
+    (s) => s.author._id.toString() === user._id.toString()
+  ) || null
+
+  const othersStories = stories.filter(
+    (s) => s.author._id.toString() !== user._id.toString()
+  )
+
+  const handleImageSelect = async (file) => {
+    if (!file) return
+    try {
+      const { data: uploadData } = await uploadImageApi(file)
+      const { data: storyData } = await createStoryApi(uploadData.data.url)
+      onStoryCreated(storyData.data.story)
+    } catch (err) {
+      console.error('Story upload failed:', err)
+    }
+  }
+
+  const ownCard = {
+    _id: 'own',
+    isOwnStory: true,
+    image: ownStory ? ownStory.imageUrl : (user?.avatar || 'assets/images/mobile_story_img.png'),
+    name: 'Your Story',
+  }
+
+  const otherCards = othersStories.map((s) => ({
+    _id: s._id,
+    isOwnStory: false,
+    image: s.imageUrl,
+    name: s.author.firstName,
+    status: 'active',
+  }))
+
+  const allCards = [ownCard, ...otherCards]
+
   return (
     <>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          if (e.target.files[0]) handleImageSelect(e.target.files[0])
+          e.target.value = ''
+        }}
+      />
       <div className="_feed_inner_ppl_card_mobile _mar_b16">
         <div className="_feed_inner_ppl_card_area">
           <ul className="_feed_inner_ppl_card_area_list">
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story">
-                  <img
-                    src="assets/images/mobile_story_img.png"
-                    alt="Image"
-                    className="_card_story_img"
-                  />
-                  <div className="_feed_inner_ppl_btn">
-                    <button className="_feed_inner_ppl_btn_link" type="button">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        fill="none"
-                        viewBox="0 0 12 12"
-                      >
-                        <path
-                          stroke="#fff"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 2.5v7M2.5 6h7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <p className="_feed_inner_ppl_card_area_link_txt">Your Story</p>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story_active">
-                  <img
-                    src="assets/images/mobile_story_img1.png"
-                    alt="Image"
-                    className="_card_story_img1"
-                  />
-                </div>
-                <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story_inactive">
-                  <img
-                    src="assets/images/mobile_story_img2.png"
-                    alt="Image"
-                    className="_card_story_img1"
-                  />
-                </div>
-                <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div href="#0" className="_feed_inner_ppl_card_area_link">
-                  <div className="_feed_inner_ppl_card_area_story_active">
-                    <img
-                      src="assets/images/mobile_story_img1.png"
-                      alt="Image"
-                      className="_card_story_img1"
-                    />
-                  </div>
-                  <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-                </div>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story_inactive">
-                  <img
-                    src="assets/images/mobile_story_img2.png"
-                    alt="Image"
-                    className="_card_story_img1"
-                  />
-                </div>
-                <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div href="#0" className="_feed_inner_ppl_card_area_link">
-                  <div className="_feed_inner_ppl_card_area_story_active">
-                    <img
-                      src="assets/images/mobile_story_img1.png"
-                      alt="Image"
-                      className="_card_story_img1"
-                    />
-                  </div>
-                  <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-                </div>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story">
-                  <img
-                    src="assets/images/mobile_story_img.png"
-                    alt="Image"
-                    className="_card_story_img"
-                  />
-                </div>
-                <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-              </a>
-            </li>
-            <li className="_feed_inner_ppl_card_area_item">
-              <a href="#0" className="_feed_inner_ppl_card_area_link">
-                <div className="_feed_inner_ppl_card_area_story_active">
-                  <img
-                    src="assets/images/mobile_story_img1.png"
-                    alt="Image"
-                    className="_card_story_img1"
-                  />
-                </div>
-                <p className="_feed_inner_ppl_card_area_txt">Ryan...</p>
-              </a>
-            </li>
+            {allCards.map((card) => (
+              <StoryItemMobile
+                key={card._id}
+                {...card}
+                onAddStory={card.isOwnStory ? () => fileInputRef.current.click() : undefined}
+              />
+            ))}
           </ul>
         </div>
       </div>
     </>
-  );
+  )
 }

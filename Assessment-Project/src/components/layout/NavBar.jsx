@@ -11,9 +11,9 @@ export default function NavBar() {
           <NavActions />
           <div className=" navbar-collapse" id="navbarSupportedContent">
             <SearchBar />
-            <ul className="navbar-nav mb-2 mb-lg-0 _header_nav_list ms-auto _mar_r8">
-              <NavElements />
-              {/* <li className="nav-item _header_nav_item">
+
+            <NavElements />
+            {/* <li className="nav-item _header_nav_item">
                 <a
                   className="nav-link _header_nav_link_active _header_nav_link"
                   aria-current="page"
@@ -570,7 +570,6 @@ export default function NavBar() {
                   <span className="_counting">2</span>
                 </a>
               </li> */}
-            </ul>
             <Profile />
           </div>
         </div>
