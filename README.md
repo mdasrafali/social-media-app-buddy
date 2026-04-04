@@ -64,7 +64,7 @@ Starting from a completed static HTML/CSS frontend template, the following was i
 ## Project Structure
 
 ```
-Appify/
+Social-Media-App-Buddy/
 ├── server/                        # Node.js + Express backend
 │   ├── config/                    # DB, Redis, Cloudinary setup
 │   ├── controllers/               # Thin HTTP handlers
@@ -84,7 +84,7 @@ Appify/
 │   ├── server.js                  # Entry point with graceful shutdown
 │   └── .env.example
 │
-└── Assessment-Project/            # React frontend
+└── frontend/            # React frontend
     └── src/
         ├── api/                   # Axios API calls (one file per domain)
         ├── assets/                # Images, fonts, CSS
