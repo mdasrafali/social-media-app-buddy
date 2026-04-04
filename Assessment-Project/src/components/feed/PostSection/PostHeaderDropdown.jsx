@@ -24,7 +24,7 @@ export default function PostHeaderDropdown({ post, onPostDeleted, isOpen, onClos
       <ul className="_feed_timeline_dropdown_list">
         
         <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
+          <a href="#0" className="_feed_timeline_dropdown_link items-center flex">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ export default function PostHeaderDropdown({ post, onPostDeleted, isOpen, onClos
           </a>
         </li>
         <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
+          <a href="#0" className="_feed_timeline_dropdown_link  items-center flex">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +67,7 @@ export default function PostHeaderDropdown({ post, onPostDeleted, isOpen, onClos
           </a>
         </li>
         <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link" onClick={(e) => { e.preventDefault(); onClose(); }}>
+          <a href="#0" className="_feed_timeline_dropdown_link  items-center flex" onClick={(e) => { e.preventDefault(); onClose(); }}>
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ export default function PostHeaderDropdown({ post, onPostDeleted, isOpen, onClos
             <a
               href="#0"
               onClick={(e) => { e.preventDefault(); handleDelete(); }}
-              className="_feed_timeline_dropdown_link"
+              className="_feed_timeline_dropdown_link  items-center flex"
             >
               <span>
                 <svg
