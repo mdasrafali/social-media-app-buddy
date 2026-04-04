@@ -5,10 +5,12 @@ import PostActions from './PostActions'
 import PostContent from './PostContent'
 import PostHeader from './PostHeader'
 import PostStats from './PostStats'
+import PostLikesModal from './PostLikesModal'
 
 export default function PostCard({ post, onPostDeleted }) {
   const [likesCount, setLikesCount] = useState(post.likesCount || 0)
   const [liked, setLiked] = useState(false)
+  const [showLikesModal, setShowLikesModal] = useState(false)
 
   const handleLike = async () => {
     try {
@@ -27,10 +29,21 @@ export default function PostCard({ post, onPostDeleted }) {
           <PostHeader post={post} onPostDeleted={onPostDeleted} />
           <PostContent post={post} />
         </div>
-        <PostStats post={post} likesCount={likesCount} />
+        <PostStats
+          post={post}
+          likesCount={likesCount}
+          onLikesClick={() => setShowLikesModal(true)}
+        />
         <PostActions liked={liked} onLike={handleLike} />
         <CommentSection postId={post._id} commentsCount={post.commentsCount} />
       </div>
+
+      {showLikesModal && (
+        <PostLikesModal
+          postId={post._id}
+          onClose={() => setShowLikesModal(false)}
+        />
+      )}
     </>
   )
 }

@@ -17,7 +17,7 @@ export default function ProfileDropdownLink({linkAction}) {
     <>
       <li className="_nav_dropdown_list_item">
         <a href="#0" onClick={handleClick} className="_nav_dropdown_link">
-          <div className="_nav_drop_info">
+          <div className="_nav_drop_info flex items-center">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

@@ -3,7 +3,7 @@ import ViewProfileInfo from "./ViewProfileInfo";
 
 export default function DropdownProfile({isOpen}) {
   return (
-    <div>
+    <>
       <div
         id="_prfoile_drop"
         className={`_nav_profile_dropdown _profile_dropdown ${isOpen ? "show" : ""}`}
@@ -17,6 +17,6 @@ export default function DropdownProfile({isOpen}) {
           <ProfileDropdownLink linkAction={"Log Out"} />
         </ul>
       </div>
-    </div>
+    </>
   );
 }
