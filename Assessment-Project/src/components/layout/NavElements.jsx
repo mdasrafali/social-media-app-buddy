@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Notifications from "../notification/Notifications";
+import { getUnreadCountApi } from "../../api/notificationApi";
+import { useAuth } from "../../context/AuthContext";
 
 const NAV_DATA = [
   {
@@ -61,7 +63,6 @@ const NAV_DATA = [
     id: "notifications",
     type: "dropdown",
     btnId: "_notify_btn",
-    count: 6,
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +108,26 @@ const NAV_DATA = [
 ];
 
 export default function NavElements() {
+  const { user } = useAuth();
   const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const fetchUnreadCount = useCallback(async () => {
+    if (!user) return;
+    try {
+      const { data } = await getUnreadCountApi();
+      setUnreadCount(data.data.count);
+    } catch {
+      // silently ignore
+    }
+  }, [user]);
+
+  // Fetch on mount, then poll every 30 seconds
+  useEffect(() => {
+    fetchUnreadCount();
+    const interval = setInterval(fetchUnreadCount, 30_000);
+    return () => clearInterval(interval);
+  }, [fetchUnreadCount]);
 
   return (
     <>
@@ -131,8 +151,13 @@ export default function NavElements() {
                 style={{ cursor: "pointer" }}
               >
                 {item.icon}
-                {item.count && <span className="_counting">{item.count}</span>}
-                <Notifications isOpen={isNotifyOpen} />
+                {unreadCount > 0 && (
+                  <span className="_counting">{unreadCount > 99 ? '99+' : unreadCount}</span>
+                )}
+                <Notifications
+                  isOpen={isNotifyOpen}
+                  onMarkAllRead={() => setUnreadCount(0)}
+                />
               </span>
             )}
           </li>

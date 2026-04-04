@@ -1,9 +1,23 @@
+import Avatar from "../../assets/images/Avatar.png";
+import Recommend1 from "../../assets/images/recommend1.png";
+import Recommend2 from "../../assets/images/recommend2.png";
 const SPONSORS = [
-  { image: "assets/images/Avatar.png", name: "Radovan SkillArena", role: "Founder & CEO at Trophy" },
-  { image: "assets/images/recommend1.png", name: "Sarah Mitchell", role: "Product Designer at Figma" },
-  { image: "assets/images/recommend2.png", name: "James Carter", role: "Software Engineer at Google" },
+  {
+    image: Avatar,
+    name: "Radovan SkillArena",
+    role: "Founder & CEO at Trophy",
+  },
+  {
+    image: Recommend1,
+    name: "Sarah Mitchell",
+    role: "Product Designer at Figma",
+  },
+  {
+    image: Recommend2,
+    name: "James Carter",
+    role: "Software Engineer at Google",
+  },
 ];
-
 export default function Sponsors() {
   return (
     <>
@@ -25,11 +39,7 @@ export default function Sponsors() {
               <div className="_right_inner_area_info_box">
                 <div className="_right_inner_area_info_box_image">
                   <a href="#0">
-                    <img
-                      src={sponsor.image}
-                      alt="Image"
-                      className="_ppl_img"
-                    />
+                    <img src={sponsor.image} alt="Image" className="_ppl_img" />
                   </a>
                 </div>
                 <div className="_right_inner_area_info_box_txt">

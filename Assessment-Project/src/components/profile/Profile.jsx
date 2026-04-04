@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import DropdownProfile from "./DropdownProfile";
+import { getAvatar } from "../../utils/avatar";
 
 export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
-  const avatarSrc = user?.avatar || "assets/images/profile.png";
+  const avatarSrc = getAvatar(user?.avatar);
   const displayName = user ? `${user.firstName} ${user.lastName}` : "Guest";
 
   return (

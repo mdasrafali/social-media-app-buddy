@@ -1,8 +1,9 @@
 import { useAuth } from '../../../context/AuthContext'
+import { getAvatar } from '../../../utils/avatar'
 
 export default function CreatePostTop({ content, setContent }) {
   const { user } = useAuth()
-  const avatarSrc = user?.avatar || 'assets/images/txt_img.png'
+  const avatarSrc = getAvatar(user?.avatar)
 
   return (
     <>

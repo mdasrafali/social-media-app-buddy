@@ -1,6 +1,7 @@
 import { useAuth } from '../../../context/AuthContext'
 import { deletePostApi } from '../../../api/postApi'
 import timeAgo from '../../../utils/timeAgo'
+import { getAvatar } from '../../../utils/avatar'
 
 export default function PostHeader({ post, onPostDeleted }) {
   const { user } = useAuth()
@@ -16,7 +17,7 @@ export default function PostHeader({ post, onPostDeleted }) {
     }
   }
 
-  const avatarSrc = post.author.avatar || 'assets/images/post_img.png'
+  const avatarSrc = getAvatar(post.author.avatar)
   const authorName = `${post.author.firstName} ${post.author.lastName}`
 
   return (

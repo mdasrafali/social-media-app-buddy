@@ -1,13 +1,49 @@
 import ActiveFriendItem from "./ActiveFriendItem";
 import ActiveFriendsHeader from "./ActiveFriendsHeader";
 
+import People1 from "../../assets/images/people1.png";
+import People2 from "../../assets/images/people2.png";
+import People3 from "../../assets/images/people3.png";
+
 const FRIENDS = [
-  { image: "assets/images/people1.png", name: "Steve Jobs", role: "CEO of Apple", status: "inactive", time: "5 minute ago" },
-  { image: "assets/images/people2.png", name: "Ryan Roslansky", role: "CEO of Linkedin", status: "active" },
-  { image: "assets/images/people3.png", name: "Dylan Field", role: "CEO of Figma", status: "active" },
-  { image: "assets/images/people1.png", name: "Steve Jobs", role: "CEO of Apple", status: "inactive", time: "10 minute ago" },
-  { image: "assets/images/people2.png", name: "Ryan Roslansky", role: "CEO of Linkedin", status: "active" },
-  { image: "assets/images/people3.png", name: "Dylan Field", role: "CEO of Figma", status: "active" },
+  {
+    image: People1,
+    name: "Steve Jobs",
+    role: "CEO of Apple",
+    status: "inactive",
+    time: "5 minute ago",
+  },
+  {
+    image: People2,
+    name: "Ryan Roslansky",
+    role: "CEO of Linkedin",
+    status: "active",
+  },
+  {
+    image: People3,
+    name: "Dylan Field",
+    role: "CEO of Figma",
+    status: "active",
+  },
+  {
+    image: People1,
+    name: "Steve Jobs",
+    role: "CEO of Apple",
+    status: "inactive",
+    time: "10 minute ago",
+  },
+  {
+    image: People2,
+    name: "Ryan Roslansky",
+    role: "CEO of Linkedin",
+    status: "active",
+  },
+  {
+    image: People3,
+    name: "Dylan Field",
+    role: "CEO of Figma",
+    status: "active",
+  },
 ];
 
 export default function ActiveFriends() {
@@ -15,7 +51,7 @@ export default function ActiveFriends() {
     <>
       <div className="_layout_right_sidebar_inner">
         <div className="_feed_right_inner_area_card  _padd_t24  _padd_b6 _padd_r24 _padd_l24 _b_radious6 _feed_inner_area">
-          <ActiveFriendsHeader/>
+          <ActiveFriendsHeader />
           <div className="_feed_bottom_fixed">
             {FRIENDS.map((friend, index) => (
               <ActiveFriendItem

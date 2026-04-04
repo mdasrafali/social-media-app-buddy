@@ -2,6 +2,7 @@ import { useState } from 'react'
 import CommentActions from './CommentActions'
 import CommentInput from './CommentInput'
 import CommentReactions from './CommentReactions'
+import { getAvatar } from '../../../utils/avatar'
 
 export default function CommentItem({ comment, postId, onDeleted }) {
   const [showReply, setShowReply] = useState(false)
@@ -9,7 +10,7 @@ export default function CommentItem({ comment, postId, onDeleted }) {
   const [likesCount, setLikesCount] = useState(comment.likesCount || 0)
   const [liked, setLiked] = useState(false)
 
-  const avatarSrc = comment.author.avatar || 'assets/images/txt_img.png'
+  const avatarSrc = getAvatar(comment.author.avatar)
   const authorName = `${comment.author.firstName} ${comment.author.lastName}`
 
   const handleReplyAdded = (reply) => {

@@ -1,8 +1,9 @@
 import EventItem from "./EventItem";
+import EventImage from '../../assets/images/feed_event1.png'
 
 const EVENTS = [
-  { eventName: "No more terrorism no more cry", date: "10", month: "Jul", going: "17 People Going" },
-  { eventName: "Global Tech Summit 2025", date: "25", month: "Aug", going: "42 People Going" },
+  { image: EventImage, eventName: "No more terrorism no more cry", date: "10", month: "Jul", going: "17 People Going" },
+  { image: EventImage, eventName: "Global Tech Summit 2025", date: "25", month: "Aug", going: "42 People Going" },
 ];
 
 export default function EventsList() {
@@ -20,6 +21,7 @@ export default function EventsList() {
           {EVENTS.map((event) => (
             <EventItem
               key={event.eventName}
+              ImageLink={event.image}
               eventName={event.eventName}
               date={event.date}
               month={event.month}

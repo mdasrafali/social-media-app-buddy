@@ -1,11 +1,11 @@
-export default function EventItem({ eventName, date = "10", month = "Jul", going = "17 People Going" }) {
+export default function EventItem({ ImageLink, eventName, date = "10", month = "Jul", going = "17 People Going" }) {
   return (
     <>
       <a className="_left_inner_event_card_link" href="#0">
         <div className="_left_inner_event_card">
           <div className="_left_inner_event_card_iamge">
             <img
-              src="assets/images/feed_event1.png"
+              src={ImageLink}
               alt="Image"
               className="_card_img"
             />

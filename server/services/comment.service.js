@@ -1,6 +1,7 @@
 const Comment = require('../models/Comment');
 const Post = require('../models/Post');
 const User = require('../models/User');
+const { createNotification } = require('./notification.service');
 
 // ─── Add comment / reply ──────────────────────────────────────────────────────
 
@@ -56,6 +57,32 @@ const addComment = async (postId, userId, { content, parentCommentId }) => {
     await Comment.findByIdAndUpdate(parentCommentId, { $inc: { repliesCount: 1 } });
   } else {
     await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
+  }
+
+  // Fire-and-forget notifications — never let this break the comment creation
+  if (parentCommentId) {
+    // Reply → notify the parent comment's author
+    const parentComment = await Comment.findById(parentCommentId).select('author').lean();
+    if (parentComment?.author?._id) {
+      createNotification({
+        recipientId: parentComment.author._id,
+        actorId: userId,
+        type: 'reply_comment',
+        postId,
+        commentId: comment._id,
+      }).catch(() => {});
+    }
+  } else {
+    // Top-level comment → notify the post author
+    if (post.author?._id) {
+      createNotification({
+        recipientId: post.author._id,
+        actorId: userId,
+        type: 'comment_post',
+        postId,
+        commentId: comment._id,
+      }).catch(() => {});
+    }
   }
 
   return comment;

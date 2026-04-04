@@ -1,9 +1,12 @@
 import ItemPeopleSuggested from "./ItemPeopleSuggested";
+import People1 from "../../assets/images/chat1_img.png"
+import People2 from "../../assets/images/chat2_img.png"
+import People3 from "../../assets/images/chat3_img.png"
 
 const SUGGESTED_PEOPLE = [
-  { image: "assets/images/people1.png", name: "Steve Jobs", role: "CEO of Apple", imgClass: "_info_img" },
-  { image: "assets/images/people2.png", name: "Ryan Roslansky", role: "CEO of Linkedin", imgClass: "_info_img1" },
-  { image: "assets/images/people3.png", name: "Dylan Field", role: "CEO of Figma", imgClass: "_info_img1" },
+  { image: People1, name: "Steve Jobs", role: "CEO of Apple", imgClass: "_info_img" },
+  { image: People2, name: "Ryan Roslansky", role: "CEO of Linkedin", imgClass: "_info_img1" },
+  { image: People3, name: "Dylan Field", role: "CEO of Figma", imgClass: "_info_img1" },
 ];
 
 export default function SuggestedPeople() {

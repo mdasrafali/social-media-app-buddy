@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../../../context/AuthContext'
 import { addCommentApi, addReplyApi } from '../../../api/commentApi'
+import { getAvatar } from '../../../utils/avatar'
 
 export default function CommentInput({ postId, onCommentAdded, parentCommentId = null }) {
   const { user } = useAuth()
   const [text, setText] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const avatarSrc = user?.avatar || 'assets/images/comment_img.png'
+  const avatarSrc = getAvatar(user?.avatar)
 
   const handleKeyDown = async (e) => {
     if (e.key !== 'Enter' || e.shiftKey || !text.trim()) return

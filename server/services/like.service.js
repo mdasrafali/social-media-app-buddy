@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const Comment = require('../models/Comment');
+const { createNotification } = require('./notification.service');
 
 /**
  * Generic toggle-like helper.
@@ -20,8 +21,8 @@ const Comment = require('../models/Comment');
 const toggleLike = async (Model, docId, userId) => {
   const userObjectId = new mongoose.Types.ObjectId(userId);
 
-  // Check current like state (need to explicitly select the hidden 'likes' field)
-  const doc = await Model.findById(docId).select('likes likesCount');
+  // Check current like state — also fetch author so we know who to notify
+  const doc = await Model.findById(docId).select('likes likesCount author');
   if (!doc) {
     const err = new Error('Document not found');
     err.statusCode = 404;
@@ -32,7 +33,7 @@ const toggleLike = async (Model, docId, userId) => {
 
   let updated;
   if (alreadyLiked) {
-    // Unlike
+    // Unlike — no notification
     updated = await Model.findByIdAndUpdate(
       docId,
       {
@@ -43,7 +44,7 @@ const toggleLike = async (Model, docId, userId) => {
     );
     return { liked: false, likesCount: updated.likesCount };
   } else {
-    // Like
+    // Like — fire notification fire-and-forget
     updated = await Model.findByIdAndUpdate(
       docId,
       {
@@ -52,6 +53,20 @@ const toggleLike = async (Model, docId, userId) => {
       },
       { new: true, select: 'likesCount' }
     );
+
+    if (doc.author?._id) {
+      const notifType = Model.modelName === 'Post' ? 'like_post' : 'like_comment';
+      const refs = Model.modelName === 'Post'
+        ? { postId: docId }
+        : { commentId: docId };
+      createNotification({
+        recipientId: doc.author._id,
+        actorId: userId,
+        type: notifType,
+        ...refs,
+      }).catch(() => {});
+    }
+
     return { liked: true, likesCount: updated.likesCount };
   }
 };

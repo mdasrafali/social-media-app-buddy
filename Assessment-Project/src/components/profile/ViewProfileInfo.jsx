@@ -1,8 +1,9 @@
 import { useAuth } from "../../context/AuthContext";
+import { getAvatar } from "../../utils/avatar";
 
 export default function ViewProfileInfo() {
   const { user } = useAuth();
-  const avatarSrc = user?.avatar || "assets/images/profile.png";
+  const avatarSrc = getAvatar(user?.avatar);
   const displayName = user ? `${user.firstName} ${user.lastName}` : "Guest";
 
   return (
