@@ -1,12 +1,13 @@
 import ProfileDropdownLink from "./ProfileDropdownLink";
 import ViewProfileInfo from "./ViewProfileInfo";
 
-export default function DropdownProfile() {
+export default function DropdownProfile({isOpen}) {
   return (
     <div>
       <div
         id="_prfoile_drop"
-        className="_nav_profile_dropdown _profile_dropdown"
+        className={`_nav_profile_dropdown _profile_dropdown ${isOpen ? "show" : ""}`}
+        onClick={(e) => e.stopPropagation()}
       >
         <ViewProfileInfo />
         <hr />

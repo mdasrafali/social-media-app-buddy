@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import DropdownProfile from "./DropdownProfile";
 
 export default function Profile() {
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const avatarSrc = user?.avatar || "assets/images/profile.png";
   const displayName = user ? `${user.firstName} ${user.lastName}` : "Guest";
@@ -16,7 +18,11 @@ export default function Profile() {
             className="_nav_profile_img"
           />
         </div>
-        <div className="_header_nav_dropdown">
+        <div 
+          className="_header_nav_dropdown"
+          onClick={() => setIsOpen(!isOpen)}
+          style={{ cursor: "pointer" }}
+        >
           <p className="_header_nav_para">{displayName}</p>
           <button
             id="_profile_drop_show_btn"
@@ -38,7 +44,7 @@ export default function Profile() {
           </button>
         </div>
         {/* <!-- dropdown --> */}
-        <DropdownProfile />
+        <DropdownProfile isOpen={isOpen} />
       </div>
     </>
   );
