@@ -1,5 +1,11 @@
 import ItemPeopleSuggested from "./ItemPeopleSuggested";
 
+const SUGGESTED_PEOPLE = [
+  { image: "assets/images/people1.png", name: "Steve Jobs", role: "CEO of Apple", imgClass: "_info_img" },
+  { image: "assets/images/people2.png", name: "Ryan Roslansky", role: "CEO of Linkedin", imgClass: "_info_img1" },
+  { image: "assets/images/people3.png", name: "Dylan Field", role: "CEO of Figma", imgClass: "_info_img1" },
+];
+
 export default function SuggestedPeople() {
   return (
     <>
@@ -19,95 +25,15 @@ export default function SuggestedPeople() {
             </span>
           </div>
 
-          <ItemPeopleSuggested/>
-
-          {/* <div className="_left_inner_area_suggest_info">
-            <div className="_left_inner_area_suggest_info_box">
-              <div className="_left_inner_area_suggest_info_image">
-                <a href="profile.html">
-                  <img
-                    src="assets/images/people1.png"
-                    alt="Image"
-                    className="_info_img"
-                  />
-                </a>
-              </div>
-              <div className="_left_inner_area_suggest_info_txt">
-                <a href="profile.html">
-                  <h4 className="_left_inner_area_suggest_info_title">
-                    Steve Jobs
-                  </h4>
-                </a>
-                <p className="_left_inner_area_suggest_info_para">
-                  CEO of Apple
-                </p>
-              </div>
-            </div>
-            <div className="_left_inner_area_suggest_info_link">
-              {" "}
-              <a href="#0" className="_info_link">
-                Connect
-              </a>
-            </div>
-          </div>
-          <div className="_left_inner_area_suggest_info">
-            <div className="_left_inner_area_suggest_info_box">
-              <div className="_left_inner_area_suggest_info_image">
-                <a href="profile.html">
-                  <img
-                    src="assets/images/people2.png"
-                    alt="Image"
-                    className="_info_img1"
-                  />
-                </a>
-              </div>
-              <div className="_left_inner_area_suggest_info_txt">
-                <a href="profile.html">
-                  <h4 className="_left_inner_area_suggest_info_title">
-                    Ryan Roslansky
-                  </h4>
-                </a>
-                <p className="_left_inner_area_suggest_info_para">
-                  CEO of Linkedin
-                </p>
-              </div>
-            </div>
-            <div className="_left_inner_area_suggest_info_link">
-              {" "}
-              <a href="#0" className="_info_link">
-                Connect
-              </a>
-            </div>
-          </div>
-          <div className="_left_inner_area_suggest_info">
-            <div className="_left_inner_area_suggest_info_box">
-              <div className="_left_inner_area_suggest_info_image">
-                <a href="profile.html">
-                  <img
-                    src="assets/images/people3.png"
-                    alt="Image"
-                    className="_info_img1"
-                  />
-                </a>
-              </div>
-              <div className="_left_inner_area_suggest_info_txt">
-                <a href="profile.html">
-                  <h4 className="_left_inner_area_suggest_info_title">
-                    Dylan Field
-                  </h4>
-                </a>
-                <p className="_left_inner_area_suggest_info_para">
-                  CEO of Figma
-                </p>
-              </div>
-            </div>
-            <div className="_left_inner_area_suggest_info_link">
-              {" "}
-              <a href="#0" className="_info_link">
-                Connect
-              </a>
-            </div>
-          </div> */}
+          {SUGGESTED_PEOPLE.map((person) => (
+            <ItemPeopleSuggested
+              key={person.name}
+              image={person.image}
+              name={person.name}
+              role={person.role}
+              imgClass={person.imgClass}
+            />
+          ))}
         </div>
       </div>
     </>

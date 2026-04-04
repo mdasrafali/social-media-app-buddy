@@ -10,29 +10,10 @@ export default function Explore() {
           </h4>
           <ul className="_left_inner_area_explore_list">
 
-            
             <li className="_left_inner_area_explore_item _explore_item">
               <ExploreItem itemName={"Learning"}/>
             </li>
 
-            {/* <li className="_left_inner_area_explore_item _explore_item">
-              <a href="#0" className="_left_inner_area_explore_link">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    fill="#666"
-                    d="M10 0c5.523 0 10 4.477 10 10s-4.477 10-10 10S0 15.523 0 10 4.477 0 10 0zm0 1.395a8.605 8.605 0 100 17.21 8.605 8.605 0 000-17.21zm-1.233 4.65l.104.01c.188.028.443.113.668.203 1.026.398 3.033 1.746 3.8 2.563l.223.239.08.092a1.16 1.16 0 01.025 1.405c-.04.053-.086.105-.19.215l-.269.28c-.812.794-2.57 1.971-3.569 2.391-.277.117-.675.25-.865.253a1.167 1.167 0 01-1.07-.629c-.053-.104-.12-.353-.171-.586l-.051-.262c-.093-.57-.143-1.437-.142-2.347l.001-.288c.01-.858.063-1.64.157-2.147.037-.207.12-.563.167-.678.104-.25.291-.45.523-.575a1.15 1.15 0 01.58-.14zm.14 1.467l-.027.126-.034.198c-.07.483-.112 1.233-.111 2.036l.001.279c.009.737.053 1.414.123 1.841l.048.235.192-.07c.883-.372 2.636-1.56 3.23-2.2l.08-.087-.212-.218c-.711-.682-2.38-1.79-3.167-2.095l-.124-.045z"
-                  />
-                </svg>
-                Learning
-              </a>{" "}
-              <span className="_left_inner_area_explore_link_txt">New</span>
-            </li>
             <li className="_left_inner_area_explore_item">
               <a href="#0" className="_left_inner_area_explore_link">
                 <svg
@@ -52,7 +33,7 @@ export default function Explore() {
             </li>
             <li className="_left_inner_area_explore_item">
               <a
-                href="find-friends.html"
+                href="#0"
                 className="_left_inner_area_explore_link"
               >
                 <svg
@@ -88,7 +69,7 @@ export default function Explore() {
               </a>
             </li>
             <li className="_left_inner_area_explore_item">
-              <a href="group.html" className="_left_inner_area_explore_link">
+              <a href="#0" className="_left_inner_area_explore_link">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -164,7 +145,7 @@ export default function Explore() {
                 </svg>
                 Save post
               </a>
-            </li> */}
+            </li>
           </ul>
         </div>
       </div>

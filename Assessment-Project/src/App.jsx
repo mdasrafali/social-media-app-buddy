@@ -7,6 +7,7 @@ import { useAuth } from './context/AuthContext'
 import HomePage from './pages/HomePage'
 import Login from './pages/Login'
 import RegisterForm from './pages/RegisterForm'
+import "../src/assets/fonts/flaticon/flaticon.css";
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth()

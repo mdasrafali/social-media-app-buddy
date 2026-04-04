@@ -1,5 +1,10 @@
 import EventItem from "./EventItem";
 
+const EVENTS = [
+  { eventName: "No more terrorism no more cry", date: "10", month: "Jul", going: "17 People Going" },
+  { eventName: "Global Tech Summit 2025", date: "25", month: "Aug", going: "42 People Going" },
+];
+
 export default function EventsList() {
   return (
     <>
@@ -7,72 +12,20 @@ export default function EventsList() {
         <div className="_left_inner_area_event _padd_t24  _padd_b6 _padd_r24 _padd_l24 _b_radious6 _feed_inner_area">
           <div className="_left_inner_event_content">
             <h4 className="_left_inner_event_title _title5">Events</h4>
-            <a href="event.html" className="_left_inner_event_link">
+            <a href="#0" className="_left_inner_event_link">
               See all
             </a>
           </div>
 
-          <EventItem eventName={"No more terrorism no more cry"}/>
-
-
-          {/* <a className="_left_inner_event_card_link" href="event-single.html">
-            <div className="_left_inner_event_card">
-              <div className="_left_inner_event_card_iamge">
-                <img
-                  src="assets/images/feed_event1.png"
-                  alt="Image"
-                  className="_card_img"
-                />
-              </div>
-              <div className="_left_inner_event_card_content">
-                <div className="_left_inner_card_date">
-                  <p className="_left_inner_card_date_para">10</p>
-                  <p className="_left_inner_card_date_para1">Jul</p>
-                </div>
-                <div className="_left_inner_card_txt">
-                  <h4 className="_left_inner_event_card_title">
-                    No more terrorism no more cry
-                  </h4>
-                </div>
-              </div>
-              <hr className="_underline" />
-              <div className="_left_inner_event_bottom">
-                <p className="_left_iner_event_bottom">17 People Going</p>{" "}
-                <div href="#0" className="_left_iner_event_bottom_link">
-                  Going
-                </div>
-              </div>
-            </div>
-          </a>
-          <a className="_left_inner_event_card_link" href="event-single.html">
-            <div className="_left_inner_event_card">
-              <div className="_left_inner_event_card_iamge">
-                <img
-                  src="assets/images/feed_event1.png"
-                  alt="Image"
-                  className="_card_img"
-                />
-              </div>
-              <div className="_left_inner_event_card_content">
-                <div className="_left_inner_card_date">
-                  <p className="_left_inner_card_date_para">10</p>
-                  <p className="_left_inner_card_date_para1">Jul</p>
-                </div>
-                <div className="_left_inner_card_txt">
-                  <h4 className="_left_inner_event_card_title">
-                    No more terrorism no more cry
-                  </h4>
-                </div>
-              </div>
-              <hr className="_underline" />
-              <div className="_left_inner_event_bottom">
-                <p className="_left_iner_event_bottom">17 People Going</p>{" "}
-                <div href="#0" className="_left_iner_event_bottom_link">
-                  Going
-                </div>
-              </div>
-            </div>
-          </a> */}
+          {EVENTS.map((event) => (
+            <EventItem
+              key={event.eventName}
+              eventName={event.eventName}
+              date={event.date}
+              month={event.month}
+              going={event.going}
+            />
+          ))}
         </div>
       </div>
     </>

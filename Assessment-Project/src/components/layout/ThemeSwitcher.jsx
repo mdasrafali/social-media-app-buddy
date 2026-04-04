@@ -1,8 +1,16 @@
+import { useTheme } from "../../context/ThemeContext";
+
 export default function ThemeSwitcher() {
+  const { toggleTheme } = useTheme();
+
   return (
     <div>
       <div className="_layout_mode_swithing_btn">
-        <button type="button" className="_layout_swithing_btn_link">
+        <button 
+          type="button" 
+          className="_layout_swithing_btn_link"
+          onClick={toggleTheme}
+        >
           <div className="_layout_swithing_btn">
             <div className="_layout_swithing_btn_round"></div>
           </div>
