@@ -1,59 +1,43 @@
-import { useRef } from "react";
-import { createStoryApi } from "../../../api/storyApi";
-import { uploadImageApi } from "../../../api/uploadApi";
-import { useAuth } from "../../../context/AuthContext";
-import StoryItemDesktop from "./StoryItemDesktop";
+import { useAuth } from '../../../context/AuthContext'
 import { getAvatar } from '../../../utils/avatar'
+import { useStoryUpload } from '../../../hooks/useStoryUpload'
+import StoryItemDesktop from './StoryItemDesktop'
 
 // Mirrors the original hardcoded colClass pattern exactly
 const getColClass = (index) => {
-  if (index <= 1) return "col";
-  if (index === 2) return "_custom_mobile_none";
-  return "_custom_none";
-};
+  if (index <= 1) return 'col'
+  if (index === 2) return '_custom_mobile_none'
+  return '_custom_none'
+}
 
 export default function DesktopStory({ stories, onStoryCreated }) {
-  const { user } = useAuth();
-  const fileInputRef = useRef(null);
-  const avatarSrc = getAvatar(user?.avatar);
+  const { user } = useAuth()
+  const avatarSrc = getAvatar(user?.avatar)
+  const { fileInputRef, handleFileChange, openPicker } = useStoryUpload(onStoryCreated)
 
   const ownStory =
-    stories.find((s) => s.author._id.toString() === user._id.toString()) ||
-    null;
+    stories.find((s) => s.author._id.toString() === user._id.toString()) || null
 
   const othersStories = stories
     .filter((s) => s.author._id.toString() !== user._id.toString())
-    .slice(0, 3);
-
-  const handleImageSelect = async (file) => {
-    if (!file) return;
-    try {
-      const { data: uploadData } = await uploadImageApi(file);
-      const { data: storyData } = await createStoryApi(uploadData.data.url);
-      onStoryCreated(storyData.data.story);
-    } catch (err) {
-      console.error("Story upload failed:", err);
-    }
-  };
+    .slice(0, 3)
 
   const ownCard = {
-    _id: "own",
+    _id: 'own',
     isOwnStory: true,
-    image: ownStory
-      ? ownStory.imageUrl
-      : user?.avatar || avatarSrc,
-    name: "Your Story",
-  };
+    image: ownStory ? ownStory.imageUrl : user?.avatar || avatarSrc,
+    name: 'Your Story',
+  }
 
   const otherCards = othersStories.map((s) => ({
     _id: s._id,
     isOwnStory: false,
     image: s.imageUrl,
-    profileImage: s.author.avatar || "assets/images/mini_pic.png",
+    profileImage: s.author.avatar || 'assets/images/mini_pic.png',
     name: `${s.author.firstName} ${s.author.lastName}`,
-  }));
+  }))
 
-  const allCards = [ownCard, ...otherCards];
+  const allCards = [ownCard, ...otherCards]
 
   return (
     <>
@@ -61,11 +45,8 @@ export default function DesktopStory({ stories, onStoryCreated }) {
         ref={fileInputRef}
         type="file"
         accept="image/*"
-        style={{ display: "none" }}
-        onChange={(e) => {
-          if (e.target.files[0]) handleImageSelect(e.target.files[0]);
-          e.target.value = "";
-        }}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
       />
       <div className="_feed_inner_ppl_card _mar_b16">
         <div className="_feed_inner_story_arrow">
@@ -90,13 +71,11 @@ export default function DesktopStory({ stories, onStoryCreated }) {
               key={card._id}
               {...card}
               colClass={getColClass(index)}
-              onAddStory={
-                card.isOwnStory ? () => fileInputRef.current.click() : undefined
-              }
+              onAddStory={card.isOwnStory ? openPicker : undefined}
             />
           ))}
         </div>
       </div>
     </>
-  );
+  )
 }

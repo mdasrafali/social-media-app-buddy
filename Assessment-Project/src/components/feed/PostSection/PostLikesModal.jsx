@@ -1,39 +1,25 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { getPostLikesApi } from '../../../api/postApi';
-import { getAvatar } from '../../../utils/avatar';
+import { useCallback, useEffect } from 'react'
+import { getPostLikesApi } from '../../../api/postApi'
+import { usePaginatedList } from '../../../hooks/usePaginatedList'
+import { getAvatar } from '../../../utils/avatar'
 
 export default function PostLikesModal({ postId, onClose }) {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [hasNextPage, setHasNextPage] = useState(false);
-  const [nextCursor, setNextCursor] = useState(null);
-  const listRef = useRef(null);
+  const likesFetcher = useCallback(
+    (cursor) =>
+      getPostLikesApi(postId, cursor, 20).then(({ data }) => ({
+        items: data.data.users,
+        pagination: data.data.pagination,
+      })),
+    [postId]
+  )
 
-  const fetchLikes = useCallback(async (cursor = null) => {
-    setLoading(true);
-    try {
-      const { data } = await getPostLikesApi(postId, cursor, 20);
-      const { users: fetched, pagination } = data.data;
-      setUsers((prev) => (cursor ? [...prev, ...fetched] : fetched));
-      setHasNextPage(pagination.hasNextPage);
-      setNextCursor(pagination.nextCursor);
-    } catch (err) {
-      console.error('Failed to fetch likes:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [postId]);
+  const { items: users, loading, hasNextPage, loadMore } = usePaginatedList(likesFetcher)
 
   useEffect(() => {
-    fetchLikes();
-  }, [fetchLikes]);
-
-  // Close on Escape key
-  useEffect(() => {
-    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, [onClose]);
+    const handleKey = (e) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [onClose])
 
   return (
     <>
@@ -87,7 +73,7 @@ export default function PostLikesModal({ postId, onClose }) {
         </div>
 
         {/* Body */}
-        <div ref={listRef} style={{ overflowY: 'auto', flex: 1, padding: '8px 0' }}>
+        <div style={{ overflowY: 'auto', flex: 1, padding: '8px 0' }}>
           {users.length === 0 && !loading && (
             <p style={{ textAlign: 'center', padding: '24px', color: '#888' }}>
               No likes yet.
@@ -97,12 +83,7 @@ export default function PostLikesModal({ postId, onClose }) {
           {users.map((user) => (
             <div
               key={user._id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '10px 20px',
-              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px 20px' }}
             >
               <img
                 src={getAvatar(user.avatar)}
@@ -122,7 +103,7 @@ export default function PostLikesModal({ postId, onClose }) {
           {hasNextPage && !loading && (
             <div style={{ textAlign: 'center', padding: '8px' }}>
               <button
-                onClick={() => fetchLikes(nextCursor)}
+                onClick={loadMore}
                 className="_info_link"
                 style={{ background: 'none', border: 'none', cursor: 'pointer' }}
               >
@@ -133,5 +114,5 @@ export default function PostLikesModal({ postId, onClose }) {
         </div>
       </div>
     </>
-  );
+  )
 }

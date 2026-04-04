@@ -1,49 +1,36 @@
-import { useRef } from "react";
-import { createStoryApi } from "../../../api/storyApi";
-import { uploadImageApi } from "../../../api/uploadApi";
-import { useAuth } from "../../../context/AuthContext";
-import { getAvatar } from "../../../utils/avatar";
-import StoryItemMobile from "./StoryItemMobile";
+import { useAuth } from '../../../context/AuthContext'
+import { getAvatar } from '../../../utils/avatar'
+import { useStoryUpload } from '../../../hooks/useStoryUpload'
+import StoryItemMobile from './StoryItemMobile'
 
 export default function MobileStory({ stories, onStoryCreated }) {
-  const { user } = useAuth();
-  const fileInputRef = useRef(null);
-  const avatarSrc = getAvatar(user?.avatar);
+  const { user } = useAuth()
+  const avatarSrc = getAvatar(user?.avatar)
+  const { fileInputRef, handleFileChange, openPicker } = useStoryUpload(onStoryCreated)
+
   const ownStory =
-    stories.find((s) => s.author._id.toString() === user._id.toString()) ||
-    null;
+    stories.find((s) => s.author._id.toString() === user._id.toString()) || null
 
   const othersStories = stories.filter(
-    (s) => s.author._id.toString() !== user._id.toString(),
-  );
-
-  const handleImageSelect = async (file) => {
-    if (!file) return;
-    try {
-      const { data: uploadData } = await uploadImageApi(file);
-      const { data: storyData } = await createStoryApi(uploadData.data.url);
-      onStoryCreated(storyData.data.story);
-    } catch (err) {
-      console.error("Story upload failed:", err);
-    }
-  };
+    (s) => s.author._id.toString() !== user._id.toString()
+  )
 
   const ownCard = {
-    _id: "own",
+    _id: 'own',
     isOwnStory: true,
     image: ownStory ? ownStory.imageUrl : user?.avatar || avatarSrc,
-    name: "Your Story",
-  };
+    name: 'Your Story',
+  }
 
   const otherCards = othersStories.map((s) => ({
     _id: s._id,
     isOwnStory: false,
     image: s.imageUrl,
     name: s.author.firstName,
-    status: "active",
-  }));
+    status: 'active',
+  }))
 
-  const allCards = [ownCard, ...otherCards];
+  const allCards = [ownCard, ...otherCards]
 
   return (
     <>
@@ -51,11 +38,8 @@ export default function MobileStory({ stories, onStoryCreated }) {
         ref={fileInputRef}
         type="file"
         accept="image/*"
-        style={{ display: "none" }}
-        onChange={(e) => {
-          if (e.target.files[0]) handleImageSelect(e.target.files[0]);
-          e.target.value = "";
-        }}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
       />
       <div className="_feed_inner_ppl_card_mobile _mar_b16">
         <div className="_feed_inner_ppl_card_area">
@@ -64,16 +48,12 @@ export default function MobileStory({ stories, onStoryCreated }) {
               <StoryItemMobile
                 key={card._id}
                 {...card}
-                onAddStory={
-                  card.isOwnStory
-                    ? () => fileInputRef.current.click()
-                    : undefined
-                }
+                onAddStory={card.isOwnStory ? openPicker : undefined}
               />
             ))}
           </ul>
         </div>
       </div>
     </>
-  );
+  )
 }

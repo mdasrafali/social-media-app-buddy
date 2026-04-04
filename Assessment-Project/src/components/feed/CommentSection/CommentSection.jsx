@@ -1,57 +1,36 @@
-import { useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { getCommentsApi } from '../../../api/commentApi'
+import { usePaginatedList } from '../../../hooks/usePaginatedList'
 import CommentInput from './CommentInput'
 import CommentItem from './CommentItem'
 
 export default function CommentSection({ postId }) {
-  const [comments, setComments] = useState([])
-  const [cursor, setCursor] = useState(null)
-  const [hasNextPage, setHasNextPage] = useState(false)
-  const [loaded, setLoaded] = useState(false)
+  const commentFetcher = useCallback(
+    (cursor) =>
+      getCommentsApi(postId, cursor).then(({ data }) => ({
+        items: data.data.comments,
+        pagination: data.data.pagination,
+      })),
+    [postId]
+  )
 
-  const loadComments = async (nextCursor = null) => {
-    try {
-      const { data } = await getCommentsApi(postId, nextCursor)
-      const { comments: fetched, pagination } = data.data
-      setComments((prev) => nextCursor ? [...prev, ...fetched] : fetched)
-      setCursor(pagination.nextCursor)
-      setHasNextPage(pagination.hasNextPage)
-      setLoaded(true)
-    } catch (err) {
-      console.error('Failed to load comments:', err)
-    }
-  }
-
-  useEffect(() => {
-    loadComments()
-  }, [postId])
-
-  const handleCommentAdded = (newComment) => {
-    setComments((prev) => [newComment, ...prev])
-  }
-
-  const handleCommentDeleted = (commentId) => {
-    setComments((prev) => prev.filter((c) => c._id !== commentId))
-  }
+  const { items: comments, loading, hasNextPage, loadMore, prepend, remove } =
+    usePaginatedList(commentFetcher)
 
   return (
     <>
       <div className="_feed_inner_timeline_cooment_area">
-        <CommentInput postId={postId} onCommentAdded={handleCommentAdded} />
+        <CommentInput postId={postId} onCommentAdded={prepend} />
       </div>
       <div className="_timline_comment_main">
         {hasNextPage && (
           <div className="_previous_comment">
-            <button
-              type="button"
-              className="_previous_comment_txt"
-              onClick={() => loadComments(cursor)}
-            >
+            <button type="button" className="_previous_comment_txt" onClick={loadMore}>
               View previous comments
             </button>
           </div>
         )}
-        {loaded && comments.length === 0 && (
+        {!loading && comments.length === 0 && (
           <p style={{ padding: '8px 24px', opacity: 0.5, fontSize: '13px' }}>
             No comments yet.
           </p>
@@ -61,7 +40,7 @@ export default function CommentSection({ postId }) {
             key={comment._id}
             comment={comment}
             postId={postId}
-            onDeleted={handleCommentDeleted}
+            onDeleted={remove}
           />
         ))}
       </div>
