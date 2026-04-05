@@ -1,0 +1,2 @@
+/api/*  https://social-media-app-buddy.onrender.com/api/:splat  200!
+/*     /index.html  200
