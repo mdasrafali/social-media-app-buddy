@@ -193,7 +193,7 @@ Multer is configured with `memoryStorage()`. The file buffer is piped directly t
 ### 1. Clone the repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/MdAsrafAli/Social-Media-App-Buddy.git
 cd Appify
 ```
 
