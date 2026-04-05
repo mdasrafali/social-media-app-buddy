@@ -4,7 +4,7 @@ import { usePaginatedList } from '../../../hooks/usePaginatedList'
 import CommentInput from './CommentInput'
 import CommentItem from './CommentItem'
 
-export default function CommentSection({ postId }) {
+export default function CommentSection({ postId, onCommentAdded }) {
   const commentFetcher = useCallback(
     (cursor) =>
       getCommentsApi(postId, cursor).then(({ data }) => ({
@@ -17,10 +17,18 @@ export default function CommentSection({ postId }) {
   const { items: comments, loading, hasNextPage, loadMore, prepend, remove } =
     usePaginatedList(commentFetcher)
 
+  const handleCommentAdded = useCallback(
+    (comment) => {
+      prepend(comment)
+      onCommentAdded?.()
+    },
+    [prepend, onCommentAdded]
+  )
+
   return (
     <>
       <div className="_feed_inner_timeline_cooment_area">
-        <CommentInput postId={postId} onCommentAdded={prepend} />
+        <CommentInput postId={postId} onCommentAdded={handleCommentAdded} />
       </div>
       <div className="_timline_comment_main">
         {hasNextPage && (

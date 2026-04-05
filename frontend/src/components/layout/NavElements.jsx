@@ -157,6 +157,7 @@ export default function NavElements() {
                 <Notifications
                   isOpen={isNotifyOpen}
                   onMarkAllRead={() => setUnreadCount(0)}
+                  onMarkOneRead={() => setUnreadCount((c) => Math.max(0, c - 1))}
                 />
               </span>
             )}

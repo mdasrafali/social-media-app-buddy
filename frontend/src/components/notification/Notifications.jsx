@@ -6,7 +6,7 @@ import {
   markOneReadApi,
 } from '../../api/notificationApi';
 
-export default function Notifications({ isOpen, onMarkAllRead }) {
+export default function Notifications({ isOpen, onMarkAllRead, onMarkOneRead }) {
   const [notifications, setNotifications] = useState([]);
   const [filter, setFilter] = useState('all'); // 'all' | 'unread'
   const [loading, setLoading] = useState(false);
@@ -45,6 +45,7 @@ export default function Notifications({ isOpen, onMarkAllRead }) {
       setNotifications((prev) =>
         prev.map((n) => (n._id === notification._id ? { ...n, read: true } : n))
       );
+      onMarkOneRead?.();
     } catch {
       // silently ignore
     }

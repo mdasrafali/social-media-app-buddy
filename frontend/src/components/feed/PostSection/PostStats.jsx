@@ -5,7 +5,7 @@ import ReactImage4 from "../../../assets/images/react_img4.png"
 import ReactImage5 from "../../../assets/images/react_img5.png"
 
 
-export default function PostStats({ post, likesCount, onLikesClick }) {
+export default function PostStats({ likesCount, commentsCount, onLikesClick }) {
   return (
     <>
       <div className="_feed_inner_timeline_total_reacts _padd_r24 _padd_l24 _mar_b26">
@@ -24,7 +24,7 @@ export default function PostStats({ post, likesCount, onLikesClick }) {
         <div className="_feed_inner_timeline_total_reacts_txt">
           <p className="_feed_inner_timeline_total_reacts_para1">
             <a href="#0">
-              <span>{post.commentsCount}</span> Comment
+              <span>{commentsCount}</span> Comment
             </a>
           </p>
           <p className="_feed_inner_timeline_total_reacts_para2">

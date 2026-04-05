@@ -9,6 +9,7 @@ import PostLikesModal from './PostLikesModal'
 
 export default function PostCard({ post, onPostDeleted }) {
   const [likesCount, setLikesCount] = useState(post.likesCount || 0)
+  const [commentsCount, setCommentsCount] = useState(post.commentsCount || 0)
   const [liked, setLiked] = useState(post.isLikedByViewer || false)
   const [showLikesModal, setShowLikesModal] = useState(false)
 
@@ -30,12 +31,15 @@ export default function PostCard({ post, onPostDeleted }) {
           <PostContent post={post} />
         </div>
         <PostStats
-          post={post}
           likesCount={likesCount}
+          commentsCount={commentsCount}
           onLikesClick={() => setShowLikesModal(true)}
         />
         <PostActions liked={liked} onLike={handleLike} />
-        <CommentSection postId={post._id} commentsCount={post.commentsCount} />
+        <CommentSection
+          postId={post._id}
+          onCommentAdded={() => setCommentsCount((c) => c + 1)}
+        />
       </div>
 
       {showLikesModal && (
