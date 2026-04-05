@@ -2,6 +2,11 @@
 
 A full-stack social media web application built with the MERN stack (MongoDB, Express, React, Node.js). The project converts a static HTML/CSS template into a fully functional, production-ready application with a real backend API, authentication, and cloud media storage.
 
+## 🚀 Live Deployment
+
+- **Frontend:** [https://starlit-sopapillas-bd4994.netlify.app](https://starlit-sopapillas-bd4994.netlify.app)
+- **Backend API:** [https://social-media-app-buddy.onrender.com](https://social-media-app-buddy.onrender.com)
+
 ---
 
 ## Table of Contents
