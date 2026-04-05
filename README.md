@@ -211,7 +211,7 @@ npm run dev
 ### 3. Set up the frontend
 
 ```bash
-cd Project
+cd frontend
 npm install
 npm run dev
 # App starts on http://localhost:5173
