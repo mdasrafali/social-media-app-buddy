@@ -1,4 +1,4 @@
-# Appify — Social Media Application
+# Buddy — Social Media Application
 
 A full-stack social media web application built with the MERN stack (MongoDB, Express, React, Node.js). The project converts a static HTML/CSS template into a fully functional, production-ready application with a real backend API, authentication, and cloud media storage.
 
